@@ -22,7 +22,7 @@ model Post {
   content   String   @db.Text
   createdat DateTime @default(now())
   updatedat DateTime @updatedAt
-  userid    Int      @default(2)
+  userid    Int
   comments  Post[]   @relation("PostToPost")
   parent    Post?    @relation("PostToPost", fields: [postid], references: [id])
   postid    Int?

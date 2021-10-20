@@ -15,7 +15,7 @@ export default gql`
 	extend type Query {
 		posts: [Post!]!
 		post(id: Int!): Post!
-		comments: [Post!]!
+		comments(postid: Int!): [Post!]!
 		comment(id: Int!): Post!
 	}
 	extend type Mutation {
