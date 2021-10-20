@@ -5,23 +5,27 @@ import resolvers from '../graphql/resolver/index.js';
 import pkg from '@prisma/client';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
-import { ForbiddenError } from 'apollo-server';
 
 export async function launch(port = 42069) {
 	const app = express();
 	const { PrismaClient } = pkg;
 	const prisma = new PrismaClient();
 	const corsOpts = { origin: '*', methods: ['GET', 'POST'], allowedHeaders: ['Content-Type'] };
-/*	const getMe = async (req) => {
-		const token = req.headers['x-token'];
+	const headers = (req) => {
+		console.log(req.headers['Authorization']);
+		console.log(req.headers['Bruh']);
+	}
+
+	/*const getMe = async (req) => {
+		const token = req.headers['Authorization'];
 		if (token) {
 			try {
-				return jwt.verify(token, env('JWT_SECRET'));
+				return jwt.verify(token.substring(7), process.env.JWT_SECRET);
 			} catch (e) {
 				throw new AuthenticationError('Your session expired. Sign in again.');
 			}
 		} else {
-			return new ForbiddenError('You are not authenticated');
+			return 'bruh';
 		}
 	};*/
 	const server = new ApolloServer({
@@ -31,9 +35,7 @@ export async function launch(port = 42069) {
 		dataSources: () => {
 			return { prisma: prisma };
 		},
-		/*context: async ({ req }) => {
-			return getMe(req);
-		},*/
+		context: async ({ req }) => {await headers(req);},
 	});
 	await server.start();
 	server.applyMiddleware({ app });
