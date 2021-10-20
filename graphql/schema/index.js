@@ -4,14 +4,6 @@ import postSchema from './post.js';
 
 const baseSchema = gql`
 	scalar Date
-	type User {
-		_: Boolean
-	}
-
-	type Post {
-		_: Boolean
-	}
-
 	type Query {
 		_: Boolean
 	}

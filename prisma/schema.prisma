@@ -7,13 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Token {
+  id    Int    @id @default(autoincrement())
+  token String
+}
+
 model User {
   id        Int    @id @default(autoincrement())
-  email     String
+  email     String @unique
   password  String
   firstname String
   lastname  String
   posts     Post[]
+  role      String @default("scrub")
 }
 
 model Post {
