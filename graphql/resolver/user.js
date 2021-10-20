@@ -1,6 +1,6 @@
 import { AuthenticationError, UserInputError } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcryptjs';
 
 const createToken = async (user, secret, expiresIn) => {
 	const { id, email, role } = user;
@@ -18,24 +18,11 @@ export default {
 	},
 	Mutation: {
 		register: async (_parent, { email, password, firstname, lastname }, { dataSources }) => {
-			let result = 'o/';
-			await bcrypt.hash(password, bcrypt.genSaltSync(10), null, async function encryptedPassword(err, hash) {
-				if (err) {
-					console.error(err);
-					result = err;
-				} else {
-					result = hash;
-					await dataSources.prisma.user.create({
-						data: {
-							email: email,
-							password: hash,
-							firstname: firstname,
-							lastname: lastname,
-						},
-					});
-				}
+			const hashedPassword = await bcrypt.hash(password,  bcrypt.genSaltSync(10));
+			return dataSources.prisma.user.create({
+				data: { email: email, password: hashedPassword, firstname: firstname, lastname: lastname,
+				},
 			});
-			return result;
 		},
 		login: async (_parent, { email, password }, { dataSources }) => {
 			let validPassword;
