@@ -1,10 +1,10 @@
 export default {
 	Query: {
 		users: async (_parent, _args, { dataSources }) => {
-			return await dataSources.prisma.user.findMany();
+			return await dataSources.prisma.user.findMany({include: {author: true}});
 		},
 		user: async (_parent, { id }, { dataSources }) => {
-			return await dataSources.prisma.user.findUnique({where: {id: id}});
+			return await dataSources.prisma.user.findUnique({where: {id: id}, include: {posts: true}});
 		}
 	},
 	Mutation: {
