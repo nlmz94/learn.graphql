@@ -1,16 +1,29 @@
 import { gql } from 'apollo-server-express';
+
 export default gql`
 	type Post {
 		id: ID!
-		body: String!
+		author: 	User!
+		content: 	String!
+		createdat: 	Date!
+		updatedat: 	Date
+		userid:    	Int!
+  		comments:  	[Post]   
+  		parent:     Post
+  		postid:    	Int
 	}
 	extend type Query {
-		getAllPosts: [Post!]!
-		getPost(id: Int!): [Post!]!
+		posts: [Post!]!
+		post(id: Int!): Post!
+		comments: [Post!]!
+		comment(id: Int!): Post!
 	}
 	extend type Mutation {
-		addPost(body: String!): Post!
-		updatePost(id: ID!, body: String): Post!
+		addPost(content: String!): Post!
+		updatePost(id: ID!, content: String): Post!
 		deletePost(id: ID!): Post!
+		addComment(postid: ID!, content: String): Post!
+		updateComment(id: ID!, content: String): Post!
+		deleteComment(id: ID!): Post!
 	}
 `;

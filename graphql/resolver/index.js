@@ -1,3 +1,5 @@
 import userResolver from './user.js';
 import postResolver from './post.js';
-export default [userResolver, postResolver];
+import {GraphQLDateTime} from 'graphql-iso-date'
+const customScalarResolver = {Date: GraphQLDateTime};
+export default [customScalarResolver, userResolver, postResolver];

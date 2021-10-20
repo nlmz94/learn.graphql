@@ -1,12 +1,12 @@
 import { gql } from 'apollo-server-express';
 export default gql`
 	type User {
-		id: ID
-		email: String!
-		password:  String!
-  		firstname: String!
-  		lastname:  String!
-  		Post:      [Post]
+		id: 		ID
+		email: 		String!
+		password:  	String!
+  		firstname: 	String!
+  		lastname:  	String!
+  		posts:     	[Post]
 	}
 	extend type Query {
 		users: [User!]!
