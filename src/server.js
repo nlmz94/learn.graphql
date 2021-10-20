@@ -11,11 +11,6 @@ export async function launch(port = 42068) {
 	const { PrismaClient } = pkg;
 	const prisma = new PrismaClient();
 	const corsOpts = { origin: '*', methods: ['GET', 'POST'], allowedHeaders: ['Content-Type'] };
-	const user = (req) => {
-		if (req.get('Authorization')) {
-			return jwt.verify(req.get('Authorization'), process.env.JWT_SECRET);
-		}
-	};
 	const server = new ApolloServer({
 		introspection: true,
 		typeDefs,

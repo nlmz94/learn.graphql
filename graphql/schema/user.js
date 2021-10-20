@@ -14,11 +14,11 @@ export default gql`
 		role: String!
 	}
 	extend type Query {
-		users: [User!]!
-		user(id: Int!): User!
+		users: [User]
+		user(id: Int!): User
 	}
 	extend type Mutation {
-		register(email: String!, password: String!, firstname: String!, lastname: String!): User!
-		login(email: String!, password: String!): Token!
+		register(email: String!, password: String!, firstname: String!, lastname: String!): User
+		login(email: String!, password: String!): Token
 	}
 `;
