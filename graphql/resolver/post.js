@@ -1,6 +1,7 @@
 export default {
 	Query: {
-		posts: async (_parent, _args, { dataSources }) => {
+		posts: async (_parent, _args, { context, dataSources }) => {
+			console.log(context);
 			return dataSources.prisma.post.findMany({
 				include: { author: true, comments: true },
 			});

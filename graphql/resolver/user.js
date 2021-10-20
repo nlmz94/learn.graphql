@@ -30,7 +30,7 @@ export default {
 			} else if (!bcrypt.compare(password, user.password)) {
 				throw new AuthenticationError('Invalid password.');
 			} else {
-				const token = await createToken(user, process.env.JWT_SECRET, '30m');
+				const token = await createToken(user, process.env.JWT_SECRET, '10h');
 				return dataSources.prisma.token.create({
 					data: { token: token },
 				});

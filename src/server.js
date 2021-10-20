@@ -6,36 +6,26 @@ import pkg from '@prisma/client';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 
-export async function launch(port = 42069) {
+export async function launch(port = 42068) {
 	const app = express();
 	const { PrismaClient } = pkg;
 	const prisma = new PrismaClient();
 	const corsOpts = { origin: '*', methods: ['GET', 'POST'], allowedHeaders: ['Content-Type'] };
-	const headers = (req) => {
-		console.log(req.headers['Authorization']);
-		console.log(req.headers['Bruh']);
-	}
-
-	/*const getMe = async (req) => {
-		const token = req.headers['Authorization'];
-		if (token) {
-			try {
-				return jwt.verify(token.substring(7), process.env.JWT_SECRET);
-			} catch (e) {
-				throw new AuthenticationError('Your session expired. Sign in again.');
-			}
-		} else {
-			return 'bruh';
+	const user = (req) => {
+		if (req.get('Authorization')) {
+			return jwt.verify(req.get('Authorization'), process.env.JWT_SECRET);
 		}
-	};*/
+	};
 	const server = new ApolloServer({
 		introspection: true,
 		typeDefs,
 		resolvers,
+		context: ({ req }) => {
+			return { user: user(req) };
+		},
 		dataSources: () => {
 			return { prisma: prisma };
 		},
-		context: async ({ req }) => {await headers(req);},
 	});
 	await server.start();
 	server.applyMiddleware({ app });
