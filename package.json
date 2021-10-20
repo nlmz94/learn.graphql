@@ -1,0 +1,40 @@
+{
+  "name": "learn.graphql",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "babel src/ --out-dir .dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nlmz94/learn.graphql.git"
+  },
+  "dependencies": {
+    "apollo-server": "^3.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.6.1",
+    "graphql-iso-date": "^3.6.1",
+    "prettier": "^2.4.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/node": "^7.15.4",
+    "@babel/preset-env": "^7.15.6",
+    "@prisma/client": "^3.1.1",
+    "apollo-server-express": "^3.4.0",
+    "graphql-tools": "^8.2.0",
+    "nodemon": "^2.0.13",
+    "prisma": "^3.3.0"
+  },
+  "author": "Nael MEZDARI",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nlmz94/learn.graphql/issues"
+  },
+  "homepage": "https://github.com/nlmz94/learn.graphql#readme",
+  "type": "module"
+}
