@@ -1,5 +1,5 @@
 import express from 'express';
-import { ApolloServer, AuthenticationError } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import typeDefs from '../graphql/schema/index.js';
 import resolvers from '../graphql/resolver/index.js';
 import pkg from '@prisma/client';
@@ -20,9 +20,7 @@ export async function launch(port = 42068) {
 		introspection: true,
 		typeDefs,
 		resolvers,
-		context: ({ req }) => {
-			return { user: user(req) };
-		},
+		context: (req) => req,
 		dataSources: () => {
 			return { prisma: prisma };
 		},

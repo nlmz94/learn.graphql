@@ -1,7 +1,15 @@
+import jwt from 'jsonwebtoken';
+
+const user = (req) => {
+	if (req.get('Authorization')) {
+		return jwt.verify(req.get('Authorization'), process.env.JWT_SECRET);
+	}
+};
+
 export default {
 	Query: {
-		posts: async (_parent, _args, { context, dataSources }) => {
-			console.log(context);
+		posts: async (_parent, _args, { req, dataSources }) => {
+			const user = await user(req);
 			return dataSources.prisma.post.findMany({
 				include: { author: true, comments: true },
 			});
