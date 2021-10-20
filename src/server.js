@@ -32,7 +32,7 @@ export async function launch(port = 42069) {
 			return { prisma: prisma };
 		},
 		/*context: async ({ req }) => {
-			return await getMe(req);
+			return getMe(req);
 		},*/
 	});
 	await server.start();
