@@ -1,18 +1,31 @@
 import { AuthenticationError, UserInputError } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { ForbiddenError } from 'apollo-server';
 
+const adminRole = 'admin';
 const createToken = async (user, secret, expiresIn) => {
 	const { id, email, role } = user;
 	return jwt.sign({ id, email, role }, secret, { expiresIn });
 };
+const user = (req) => {
+	if (req.get('Authorization')) {
+		try {
+			return jwt.verify(req.get('Authorization'), process.env.JWT_SECRET);
+		} catch (err) {
+			throw new AuthenticationError('Your session expired. Sign in again.');
+		}
+	}
+};
 
 export default {
 	Query: {
-		users: async (_parent, _args, { dataSources }) => {
+		users: async (_parent, _args, { req, dataSources }) => {
+			if (user(req).role !== adminRole) return new ForbiddenError('Not Authorized');
 			return dataSources.prisma.user.findMany({ include: { posts: true } });
 		},
-		user: async (_parent, { id }, { dataSources }) => {
+		user: async (_parent, { id }, { req, dataSources }) => {
+			if (user(req).role !== adminRole) return new ForbiddenError('Not Authorized');
 			return dataSources.prisma.user.findUnique({ where: { id: id }, include: { posts: true } });
 		},
 	},
