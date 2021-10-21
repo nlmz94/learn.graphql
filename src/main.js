@@ -1,3 +1,3 @@
-import { launch } from './server.js'
+import { launch } from './server.js';
 
-launch().then()
+launch().then();

@@ -4,7 +4,6 @@ import typeDefs from '../graphql/schema/index.js';
 import resolvers from '../graphql/resolver/index.js';
 import pkg from '@prisma/client';
 import cors from 'cors';
-import jwt from 'jsonwebtoken';
 
 export async function launch(port = 42068) {
 	const app = express();
